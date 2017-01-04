@@ -3,7 +3,7 @@ Module for Parallax PING))) Ultrasonic Distance Sensor
 ##Measure.v
 This module controls Parallax PING)) Ultrasonic Distance Sensor.
 
-* Sending and recieving a pulse.
+* Sending and receive a pulse.
 * Measuring the time while the pulse is coming back.
 * Output the clock of above time.
 
