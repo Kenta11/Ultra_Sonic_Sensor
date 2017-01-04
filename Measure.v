@@ -1,13 +1,13 @@
 `timescale 1ns / 1ps
 //////////////////////////////////////////////////////////////////////////////////
-// Company: 
-// Engineer: 
+// Company: Utusnomiya University
+// Engineer: Kenta Arai
 // 
 // Create Date:    12:45:30 11/25/2016 
-// Design Name: 
+// Design Name:    
 // Module Name:    Measure 
-// Project Name: 
-// Target Devices: 
+// Project Name:   
+// Target Devices: Parallax PIND))) Ultrasonic Distance Sensor
 // Tool versions: 
 // Description: 
 //
@@ -25,14 +25,30 @@ module Measure(
 	 inout Sig,
 	 output [19:0] TIME
     );
-	 
+  
+  //stateをマクロ定義
+  //5状態のステートマシン
+  //START : 
+  //  初期状態．リセットされたときやclk_countが
+  //  50未満のときになる．
+  //FIRST :
+  //  第一段階．Sigに1を出力
+  //SECOND :
+  //  第二段階．Sigに0を出力
+  //MEASURE :
+  //  計測フェーズ．Sigから1が入力されている
+  //  時間を計測する．
+  //OUTTIME :
+  //　　結果出力フェーズ．計測フェーズで得たクロック数を
+  //  TIMEに出力する．
   parameter [2:0] START = 3'b000,
                   FIRST = 3'b001,
                   SECOND = 3'b010,
 				  	   MEASURE = 3'b011,
 					   OUTTIME = 3'b100;
 	 
-  //300350μsで１周
+  //965300μsで１周
+  //
   reg [19:0] clk_count;
   always@(posedge CLK or posedge RESET)
   begin
@@ -90,8 +106,8 @@ module Measure(
   end
   
   //1.超音波を送受信
-  //超音波を送信:sigFlag=1
-  //超音波を受信：sigFlag=0
+  //センサから超音波を送信:sigFlag=1
+  //センサから信号を受信：sigFlag=0
   reg sigFlag;
   
   always@(posedge CLK)
@@ -112,7 +128,7 @@ module Measure(
   end
   
   //sigFlag=1のとき
-  //  state=STARTならば1,それ以外ならば0
+  //  state=FIRSTならば1,それ以外ならば0
   //sigFlag=0のとき
   //  ハイインピーダンス
   assign Sig = (sigFlag == 1'b1) ? ((state == FIRST) ? 1'b1 : 1'b0) : 1'bz;
@@ -120,7 +136,8 @@ module Measure(
   //2.超音波の計測
   //計測時間
   reg [19:0] MeasureCLK;
-  //Sig=1の時間だけ、MeasureTimeを加算する。
+  //MEASURE : 
+  //  Sig=1の時間だけ、MeasureTimeを加算する。
   //計測時間外では常にMeasureTimeを0にしておく。
   always@(posedge CLK)
   begin
@@ -136,14 +153,7 @@ module Measure(
 	 endcase
   end
   
-  //3.距離の計算
-  //計測距離の決定
-  //物体までの距離
-  //L = C * t / 2
-  //L : 距離, C : 温度によって変化する変数, t : 時間
-  //C = 331.5 * ((273 + T) / 273)
-  //T : 温度
-  //気温を考慮しない場合，C = 340とするのが一般的らしい？？？
+  //3.計測時間の出力
   reg [19:0] MeasureTime;
   
   always@(posedge CLK)
