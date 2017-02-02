@@ -47,19 +47,19 @@ module Sensor2(
   
   always@(posedge CLK)
   begin
-    if(TIME > 24'd70000)
+    if(TIME > 24'd90000)
 	   Select <= 3'b111;
-	 else if(TIME > 24'd60000)
+	 else if(TIME > 24'd80000)
 	   Select <= 3'b110;
-	 else if(TIME > 24'd50000)
+	 else if(TIME > 24'd70000)
 	   Select <= 3'b101;
-	 else if(TIME > 24'd40000)
+	 else if(TIME > 24'd60000)
 	   Select <= 3'b100;
-	 else if(TIME > 24'd30000)
+	 else if(TIME > 24'd50000)
 	   Select <= 3'b011;
-	 else if(TIME > 24'd20000)
+	 else if(TIME > 24'd40000)
 	   Select <= 3'b010;
-	 else if(TIME > 24'd10000)
+	 else if(TIME > 24'd30000)
 	   Select <= 3'b001;
 	 else
 	   Select <= 3'b000;

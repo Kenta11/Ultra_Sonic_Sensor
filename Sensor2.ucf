@@ -1,20 +1,19 @@
 
 
 NET "CLK" LOC = B8;
-NET "LD0" LOC = M5;
-NET "LD1" LOC = M11;
-NET "LD2" LOC = P7;
-NET "LD3" LOC = P6;
-NET "LD4" LOC = N5;
-NET "LD5" LOC = N4;
-NET "LD6" LOC = P4;
-NET "LD7" LOC = G1;
+NET "LD0" LOC = A9;
+NET "LD1" LOC = B9;
+NET "LD2" LOC = A10;
+NET "LD3" LOC = C9;
+NET "LD4" LOC = C12;
+NET "LD5" LOC = A13;
+NET "LD6" LOC = C13;
+NET "LD7" LOC = D12;
 NET "Sig" LOC = B2;
 
 NET "CLK" TNM_NET = "USER_CLOCK";
 TIMESPEC TS_USER_CLOCK = PERIOD "USER_CLOCK" 50 MHz;
 
 
-# PlanAhead Generated physical constraints 
 
 NET "RESET" LOC = G12;
